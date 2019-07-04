@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cskaoyan.malldemo.mapper.AdminMapper">
+  <resultMap id="BaseResultMap" type="com.cskaoyan.malldemo.bean.Admin">
+    <id column="id" jdbcType="INTEGER" property="id"/>
+    <result column="username"  property="username"/>
+    <result column="password" property="password"/>
+    <result column="last_login_ip" property="lastLoginIp"/>
+    <result column="last_login_time"  property="lastLoginTime"/>
+    <result column="avatar"  property="avatar"/>
+    <result column="add_time"  property="addTime"/>
+    <result column="update_time" property="updateTime"/>
+    <result column="deleted" property="deleted"/>
+    <result column="role_ids" property="roleIds" javaType="java.lang.Integer"  typeHandler="com.cskaoyan.malldemo.handler.StringToIntegersHandler"/>
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, username, password, last_login_ip, last_login_time, avatar, add_time, update_time, 
+    deleted, role_ids
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from cskaoyan_mall_admin
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectByUsername" resultMap="BaseResultMap">
+  select
+  <include refid="Base_Column_List"/>
+  from cskaoyan_mall_admin
+  where username = #{username}
+  </select>
+  <delete id="deleteByPrimaryKey" >
+    delete from cskaoyan_mall_admin
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" >
+    insert into cskaoyan_mall_admin (id, username, password,
+      last_login_ip, last_login_time, avatar,
+      add_time, update_time, deleted,
+      role_ids)
+    values (#{id,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR},
+      #{lastLoginIp,jdbcType=VARCHAR}, #{lastLoginTime,jdbcType=TIMESTAMP}, #{avatar,jdbcType=VARCHAR},
+      #{addTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{deleted,jdbcType=BIT},
+      #{roleIds,typeHandler=com.cskaoyan.malldemo.handler.StringToIntegersHandler})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.cskaoyan.malldemo.bean.Admin">
+    update cskaoyan_mall_admin
+    set username = #{username,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      last_login_ip = #{lastLoginIp,jdbcType=VARCHAR},
+      last_login_time = #{lastLoginTime,jdbcType=TIMESTAMP},
+      avatar = #{avatar,jdbcType=VARCHAR},
+      add_time = #{addTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      deleted = #{deleted,jdbcType=BIT},
+      role_ids = #{roleIds,typeHandler=com.cskaoyan.malldemo.handler.StringToIntegersHandler}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
